@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -13,11 +14,35 @@ namespace Shape.Controllers
     public class RecordsController : Controller
     {
         private RecordsDbContext db = new RecordsDbContext();
+       // enum Mon { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        //enum Year { 2018,2019};
 
         // GET: Records
-        public ActionResult Index()
+        public ActionResult Index(string Months, string Years)
         {
-            return View(db.Records.ToList());
+            var mon = new List<string>() { "1","2","3","4","5","6","7","8","9","10","11","12"};
+            //var mon = monnum.ToString();
+            var years = new List<string>() { "2018", "2019" };
+            ViewBag.Months =new SelectList(mon);
+            ViewBag.Years = new SelectList(years);
+            var records = from m in db.Records select m;
+            //Debug.WriteLine("I'm ok!");
+            //Debug.WriteLine(Months);
+            //Debug.WriteLine(Years);
+            Debug.WriteLine(DateTime.Now.Year.ToString());
+            if (!String.IsNullOrEmpty(Years))
+            {
+                //Debug.WriteLine(Years);
+                records = records.Where(s => s.RecordDate.Year.ToString() == Years);
+            }
+            if (!String.IsNullOrEmpty(Months))
+            {
+                //Debug.WriteLine(Months);
+                records = records.Where(x => x.RecordDate.Month.ToString() == Months);
+            }
+
+
+            return View(records);
         }
 
         // GET: Records/Details/5

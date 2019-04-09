@@ -9,9 +9,13 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Index","Records", FormMethod.Get))
     {
-        <p>Show By: @Html.DropDownList
+        <p> Show By
+            Month: @Html.DropDownList("Months","All")
+            Year: @Html.DropDownList("Years","All")
+           <input type="submit" value="Filter" />
+        </p>
     }
 </p>
 <table class="table">
