@@ -18,10 +18,63 @@
         </p>
     }
 </p>
+@foreach(var group in Model.GroupBy(model => model.RecordDate.Year))
+{
+    <p>@group.Key</p>
+    <table class="table">
+        <tr>
+            <th>
+                Month
+            </th>
+            <th>
+                Day
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Waist)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in group)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecordDate.Month)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecordDate.Day)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Waist)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+    }
+
+<!--
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.RecordDate)
+        </th>
+        <th>
+            Month
+        </th>
+        <th>
+            Day
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Weight)
@@ -35,7 +88,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.RecordDate)
+            @Html.DisplayFor(modelItem => item.RecordDate.Year)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecordDate.Month)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecordDate.Day)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Weight)
@@ -44,11 +103,16 @@
             @Html.DisplayFor(modelItem => item.Waist)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
         </td>
     </tr>
 }
 
 </table>
+    -->
+
+<script>
+
+</script>

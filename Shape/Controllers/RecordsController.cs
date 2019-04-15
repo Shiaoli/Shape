@@ -25,7 +25,14 @@ namespace Shape.Controllers
             var years = new List<string>() { "2018", "2019" };
             ViewBag.Months =new SelectList(mon);
             ViewBag.Years = new SelectList(years);
-            var records = from m in db.Records select m;
+            var allRecords = from m in db.Records select m;
+            /*
+            var records = from m in db.Records
+                          group m by m.RecordDate.Year into newRecord
+                          orderby newRecord.Key
+                          select newRecord;
+                          */
+            //records = records.GroupBy()
             //Debug.WriteLine("I'm ok!");
             //Debug.WriteLine(Months);
             //Debug.WriteLine(Years);
@@ -33,16 +40,16 @@ namespace Shape.Controllers
             if (!String.IsNullOrEmpty(Years))
             {
                 //Debug.WriteLine(Years);
-                records = records.Where(s => s.RecordDate.Year.ToString() == Years);
+                allRecords = allRecords.Where(s => s.RecordDate.Year.ToString() == Years);
             }
             if (!String.IsNullOrEmpty(Months))
             {
                 //Debug.WriteLine(Months);
-                records = records.Where(x => x.RecordDate.Month.ToString() == Months);
+                allRecords = allRecords.Where(x => x.RecordDate.Month.ToString() == Months);
             }
 
 
-            return View(records);
+            return View(allRecords);
         }
 
         // GET: Records/Details/5
