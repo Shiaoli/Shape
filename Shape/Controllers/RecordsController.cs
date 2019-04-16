@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Shape.Models;
 
@@ -25,17 +26,10 @@ namespace Shape.Controllers
             var years = new List<string>() { "2018", "2019" };
             ViewBag.Months =new SelectList(mon);
             ViewBag.Years = new SelectList(years);
-            var allRecords = from m in db.Records select m;
-            /*
-            var records = from m in db.Records
-                          group m by m.RecordDate.Year into newRecord
-                          orderby newRecord.Key
-                          select newRecord;
-                          */
-            //records = records.GroupBy()
-            //Debug.WriteLine("I'm ok!");
-            //Debug.WriteLine(Months);
-            //Debug.WriteLine(Years);
+            IQueryable<Record> allRecords = from m in db.Records
+                             orderby m.RecordDate descending
+                             select m ;
+           
             Debug.WriteLine(DateTime.Now.Year.ToString());
             if (!String.IsNullOrEmpty(Years))
             {
@@ -51,6 +45,21 @@ namespace Shape.Controllers
 
             return View(allRecords);
         }
+
+        //GET /Records/Chart
+        public ActionResult Chart()
+        {
+            //var records = from m in db.Records select m;
+            new Chart(width: 800, height: 300).AddSeries(
+                chartType: "Line",
+                xValue: from m in db.Records select m.RecordDate,
+                yValues: from m in db.Records select m.Weight
+                ).Write("png");
+            return View();
+        }
+
+
+
 
         // GET: Records/Details/5
         public ActionResult Details(int? id)

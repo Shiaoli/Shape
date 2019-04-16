@@ -186,6 +186,7 @@
     <Content Include="Views\Records\Details.cshtml" />
     <Content Include="Views\Records\Edit.cshtml" />
     <Content Include="Views\Records\Index.cshtml" />
+    <Content Include="Views\Records\Chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
